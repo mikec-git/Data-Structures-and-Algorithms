@@ -10,13 +10,47 @@ namespace LinkedListDS
     public class LinkedList<T>
     {
         // Start of the linked list chain
-        Node<T> head = null;
-        Node<T> tail = null;
+        private Node<T> head;
+        private Node<T> tail;
+
+        public LinkedList()
+        {
+            head = null;
+            tail = null;
+            Count = 0;
+        }
+
+        public bool Empty () => Count == 0;
+
+        public int Count { get; private set; }
+
+        public void Add(int index, T data)
+        {
+            if (index < 0)
+                throw new ArgumentOutOfRangeException("Index: " + index);
+            else if (index > Count)
+                index = Count;
+
+            Node<T> current = head;
+
+            if (Empty() || index == 0)
+                head = new Node<T>(data, head);
+            else
+            {
+                // 0    1    2    3   4
+                // A -> B -> C -> D
+                for (int i = 0; i < index - 1; i++)
+                    current = current.next;
+
+                current.next = new Node<T>(data, current.next);
+            }
+
+            Count++;
+        }
 
         public void AddLast(T data)
         {
-            Node<T> newItem = new Node<T>();
-            newItem.data = data;
+            Node<T> newItem = new Node<T>(data, null);
 
             if (head == null)
             {
@@ -41,12 +75,13 @@ namespace LinkedListDS
                 tail.next = newItem;
                 tail = newItem;
             }
+
+            Count++;
         }
 
         public void AddFirst(T data)
         {
-            Node<T> newItem = new Node<T>();
-            newItem.data = data;
+            Node<T> newItem = new Node<T>(data, null);
 
             // This is now the first item so the current head becomes the next item
             if (head == null)
@@ -59,11 +94,32 @@ namespace LinkedListDS
                 newItem.next = head;
                 head = newItem;
             }
+
+            Count++;
         }
 
-        public void RemoveNode(int nodeNumber)
+        public void Remove(int index)
         {
+            if (index < 0)
+                throw new ArgumentOutOfRangeException("Index: " + index);
+            else if (index > Count)
+                index = Count;
 
+            if (Empty())
+                return;
+
+            Node<T> current = head;
+
+            if (index == 0)
+                head = current.next;
+            else
+            {
+                for (int i = 0; i < index - 1; i++)
+                    current = current.next;
+
+                current.next = current.next.next;
+            }
+            Count--;
         }
 
         public void ReadAll()
@@ -80,6 +136,27 @@ namespace LinkedListDS
 
             // Display last node data.
             Console.WriteLine(current.data);
+        }
+
+        public void Clear()
+        {
+            Console.Write("\nType \"CLEAR\" to clear the list or \"BACK\" to return: ");
+            
+            while (true)
+            {
+                string clearCheck = Console.ReadLine();
+
+                if (clearCheck == "CLEAR")
+                {
+                    head = null;
+                    tail = null;
+                    Count = 0;
+                }
+                else if (clearCheck == "BACK")
+                    return;
+                else
+                    Console.WriteLine("Incorrect input, try again.");
+            }
         }
     }
 }
