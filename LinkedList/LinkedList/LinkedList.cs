@@ -9,7 +9,6 @@ namespace LinkedListDS
     // This class will have the logic to connect the node objects to create linked list structure
     public class LinkedList<T>
     {
-        // Start of the linked list chain
         private Node<T> head;
         private Node<T> tail;
 
@@ -28,6 +27,7 @@ namespace LinkedListDS
         {
             if (index < 0)
                 throw new ArgumentOutOfRangeException("Index: " + index);
+
             else if (index > Count)
                 index = Count;
 
@@ -35,10 +35,17 @@ namespace LinkedListDS
 
             if (Empty() || index == 0)
                 head = new Node<T>(data, head);
+
+            else if (index == Count)
+            {
+                tail.next = new Node<T>(data, null);
+                tail = tail.next;
+            }
+
             else
             {
-                // 0    1    2    3   4
-                // A -> B -> C -> D
+                // 0    1    2    3    4    5    6
+                // A -> B -> C -> D -> E -> F
                 for (int i = 0; i < index - 1; i++)
                     current = current.next;
 
@@ -58,9 +65,6 @@ namespace LinkedListDS
                 // head --> newItem
                 // tail --> newItem
                 
-                // If this is the first item added to the linked list, make a new Node object and assign it to the Node head object. 
-                // Also assign the next node as null since it is the first node, so there will not be a next node yet.
-
                 head = newItem;
                 tail = newItem;
             }
@@ -70,8 +74,7 @@ namespace LinkedListDS
                 // Step 2: Second item
                 // Current tail's next node points to newItem.
                 // Current tail is set to newItem.
-
-                // O(1) performance
+                //  - O(1) performance
                 tail.next = newItem;
                 tail = newItem;
             }
@@ -102,8 +105,9 @@ namespace LinkedListDS
         {
             if (index < 0)
                 throw new ArgumentOutOfRangeException("Index: " + index);
-            else if (index > Count)
-                index = Count;
+
+            else if (index >= Count)
+                index = Count - 1;
 
             if (Empty())
                 return;
@@ -112,13 +116,19 @@ namespace LinkedListDS
 
             if (index == 0)
                 head = current.next;
+            
             else
             {
                 for (int i = 0; i < index - 1; i++)
                     current = current.next;
 
                 current.next = current.next.next;
+
+                if (index == Count - 1)
+                    tail = current;
+
             }
+
             Count--;
         }
 
@@ -126,8 +136,7 @@ namespace LinkedListDS
         {
             Node<T> current = head;
 
-            // Loop until we get to the last node.
-            // Display the data inside it.
+            // Loop until we get to the last node. Display the data inside it.
             while (current.next != null)
             {
                 Console.WriteLine(current.data);
@@ -140,7 +149,7 @@ namespace LinkedListDS
 
         public void Clear()
         {
-            Console.Write("\nType \"CLEAR\" to clear the list or \"BACK\" to return: ");
+            Console.Write("\nType \"CLEAR\" to clear the list or \"Back\" to return: ");
             
             while (true)
             {
@@ -151,8 +160,9 @@ namespace LinkedListDS
                     head = null;
                     tail = null;
                     Count = 0;
+                    return;
                 }
-                else if (clearCheck == "BACK")
+                else if (clearCheck.Equals("back", StringComparison.OrdinalIgnoreCase))
                     return;
                 else
                     Console.WriteLine("Incorrect input, try again.");

@@ -13,14 +13,21 @@ namespace LinkedListDS
             LinkedList<int> link = new LinkedList<int>();
             link.AddLast(1);
             link.AddLast(2);
-            link.AddLast(3);
-            link.AddLast(4);
+
             link.AddFirst(0);
 
-            link.Add(0, 55);
-            link.Add(-1, 55);
+            link.AddLast(3);
+            link.AddLast(4);
+            link.AddLast(5);
+
+
+            link.Remove(4);
 
             link.ReadAll();
+
+            Console.WriteLine("\n" + link.Count);
+
+            link.Clear();
 
             Console.ReadKey();
         }
