@@ -1,0 +1,1 @@
+This is a repo containing the practice I have done for data structures and algorithms.
