@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkedList
+namespace LinkedListDS
 {
     // This class represents a node in the linked list
-    class Node
+    public class Node<T>
     {
-        object data = null;
-        Node next = null;
+        public T data;
+        public Node<T> next;
     }
 }

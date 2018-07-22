@@ -4,12 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkedList
+namespace LinkedListDS
 {
     class Program
     {
         static void Main(string[] args)
         {
+            LinkedList<int> link = new LinkedList<int>();
+            link.AddLast(1);
+            link.AddLast(2);
+            link.AddLast(3);
+            link.AddLast(4);
+            link.AddFirst(0);
+            link.ReadAll();
+
+            Console.ReadKey();
         }
     }
 }
